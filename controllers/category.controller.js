@@ -21,8 +21,12 @@ module.exports.findAllCategories = async(req,res,next)=>{
 
 module.exports.findCategoryByPk = async(req,res,next)=>{
 try {
-  const categories =await Category.findByPk(id);
-  res.status(200).send({data:categories})
+  const {params:{idCategory}}= req;
+  const [category] =await Category.findByPk(idCategory);
+  if(!category){
+return res.status(400).send()
+  }
+  return res.status(200).send(category)
 } catch (error) {
   next (error)
 }
